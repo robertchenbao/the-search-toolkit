@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import { themeOptions } from "./theme";
 import CssBaseline from "@mui/material/CssBaseline";
+import { Paper } from "@mui/material";
 
 function App() {
     return (
@@ -15,7 +16,6 @@ function App() {
                     flexDirection: "row",
                     width: "100%",
                     minHeight: "100vh",
-                    flexGrow: 1,
                     padding: "32px",
                     backgroundColor: themeOptions.palette.background.main,
                 }}
@@ -37,7 +37,7 @@ function App() {
                         <Typography
                             variant="h5"
                             sx={{
-                                width: "80%",
+                                width: "100%",
                                 textAlign: "left",
                                 marginY: "32px",
                             }}
@@ -50,15 +50,16 @@ function App() {
                         <Typography variant="h4">My Searches</Typography>
                     </Box>
                 </Box>
-                <Box
+                <Paper
                     sx={{
                         paddingX: "32px",
                         width: "60%",
                         backgroundColor: themeOptions.palette.primary.main,
+                        borderRadius: "16px",
                     }}
                 >
                     <h1>The search param form</h1>
-                </Box>
+                </Paper>
             </Box>
         </ThemeProvider>
     );

@@ -9,6 +9,22 @@ import InputBase from "@mui/material/InputBase";
 import Button from "@mui/material/Button";
 
 function App() {
+    // validate function for google forms
+    const validate = (values) => {
+        const emptySearchMessage =
+            "Please fill in either search keywords, or exact keywords.";
+        const errors = {};
+        const empty =
+            values.mainKeywords.trim()?.length <= 0 &&
+            values.exactKeywords.trim()?.length <= 0;
+        if (empty) {
+            errors.mainKeywords = emptySearchMessage;
+            errors.exactKeywords = emptySearchMessage;
+        }
+        return errors;
+    };
+
+    // the HTML form used to search google
     const googleForm = useFormik({
         initialValues: {
             mainKeywords: "",
@@ -17,11 +33,14 @@ function App() {
             siteName: "",
             fileType: "",
         },
+        validate,
         onSubmit: (values) => {
             console.log("values after submit", values);
+            searchGoogle(values);
         },
     });
 
+    // the styles for input
     const formInputStyles = {
         width: "100%",
         backgroundColor: themeOptions.palette.background.main,
@@ -29,13 +48,69 @@ function App() {
     };
     const formLabelStyles = {
         color: themeOptions.palette.text.primary,
-        width: "30%",
+        width: "40%",
     };
 
     const inputRowStyles = {
         display: "flex",
         flexDirection: "row",
         marginY: "36px",
+    };
+
+    const keywordInputRowStyles = {
+        display: "flex",
+        flexDirection: "row",
+        marginTop: "36px",
+    };
+
+    // do the search on google
+    const searchGoogle = ({
+        mainKeywords,
+        exactKeywords,
+        excludedKeywords,
+        siteName,
+        fileType,
+    }) => {
+        let url = `https://google.com/search?q=${mainKeywords}`;
+
+        let fileTypeString = makeFileTypeString(fileType);
+        let excludedString = makeExcludeString(excludedKeywords);
+
+        if (excludedString) url += ` ${excludedString}`;
+        if (exactKeywords) url += ` "${exactKeywords}"`;
+        if (fileTypeString) url += ` ${fileTypeString}`;
+        if (siteName) url += ` site: ${siteName}`;
+
+        window.open(url, "_blank");
+    };
+
+    // formatting functions to create search strings
+    const makeExcludeString = (exclude) => {
+        let excludedString = "";
+        if (exclude) {
+            if (exclude.indexOf(",")) {
+                let excluded = exclude.split(",");
+                for (let iterator of excluded) {
+                    excludedString += ` -"${iterator.trim()}"`;
+                }
+            }
+            return excludedString;
+        }
+        return null;
+    };
+    const makeFileTypeString = (fileType) => {
+        let fileTypesString = "(";
+        if (fileType) {
+            if (fileType.indexOf(",")) {
+                let types = fileType.split(",");
+                for (let [i, v] of types.entries()) {
+                    if (i === 0) fileTypesString += ` filetype:${v.trim()}`;
+                    else fileTypesString += ` OR filetype:${v.trim()}`;
+                }
+                fileTypesString += " )";
+            }
+        }
+        return fileType.trim().length <= 0 ? null : fileTypesString;
     };
 
     return (
@@ -63,7 +138,11 @@ function App() {
                     <Box sx={{ height: "200px" }}>
                         <Typography
                             variant="h3"
-                            sx={{ width: "100%", textAlign: "left" }}
+                            sx={{
+                                width: "100%",
+                                textAlign: "left",
+                                marginY: "8px",
+                            }}
                         >
                             The Search Toolkit
                         </Typography>
@@ -93,6 +172,7 @@ function App() {
                         backgroundColor: themeOptions.palette.primary.main,
                         borderRadius: "16px",
                     }}
+                    elevation={3}
                 >
                     <Typography
                         variant="h4"
@@ -105,7 +185,7 @@ function App() {
                         My Precise search
                     </Typography>
                     <form onSubmit={googleForm.handleSubmit}>
-                        <Box sx={inputRowStyles}>
+                        <Box sx={keywordInputRowStyles}>
                             <Typography variant="h6" sx={formLabelStyles}>
                                 Keywords
                             </Typography>
@@ -119,7 +199,11 @@ function App() {
                                 value={googleForm.values.mainKeywords}
                             />
                         </Box>
-                        <Box sx={inputRowStyles}>
+                        {googleForm.errors.mainKeywords ? (
+                            <div>{googleForm.errors.mainKeywords}</div>
+                        ) : null}
+
+                        <Box sx={keywordInputRowStyles}>
                             <Typography variant="h6" sx={formLabelStyles}>
                                 Exact Keywords
                             </Typography>
@@ -133,6 +217,9 @@ function App() {
                                 value={googleForm.values.exactKeywords}
                             />
                         </Box>
+                        {googleForm.errors.mainKeywords ? (
+                            <div>{googleForm.errors.mainKeywords}</div>
+                        ) : null}
                         <Box sx={inputRowStyles}>
                             <Typography variant="h6" sx={formLabelStyles}>
                                 Exclude
@@ -175,7 +262,15 @@ function App() {
                                 value={googleForm.values.fileType}
                             />
                         </Box>
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                // marginTop: "auto",
+                                // position: "absolute",
+                                // bottom: "0px",
+                            }}
+                        >
                             <Button
                                 size="large"
                                 type="submit"

@@ -7,6 +7,8 @@ import { Paper } from "@mui/material";
 import { useFormik } from "formik";
 import InputBase from "@mui/material/InputBase";
 import Button from "@mui/material/Button";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import SaveIcon from "@mui/icons-material/Save";
 
 function App() {
     // validate function for google forms
@@ -174,16 +176,49 @@ function App() {
                     }}
                     elevation={3}
                 >
-                    <Typography
-                        variant="h4"
+                    <Box
                         sx={{
-                            width: "100%",
-                            textAlign: "center",
-                            marginY: "16px",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                         }}
                     >
-                        My Precise search
-                    </Typography>
+                        <Button
+                            variant="outlined"
+                            startIcon={<TipsAndUpdatesIcon />}
+                            color="secondary"
+                            onClick={() => {
+                                googleForm.setValues({
+                                    mainKeywords: "abc",
+                                    exactKeywords: "def",
+                                    excludedKeywords: "nonono",
+                                    siteName: "yes.com",
+                                    fileType: "pdf",
+                                });
+                            }}
+                        >
+                            Example
+                        </Button>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                width: "100%",
+                                textAlign: "center",
+                                marginY: "16px",
+                            }}
+                        >
+                            My Precise Search
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            startIcon={<SaveIcon />}
+                            color="secondary"
+                            onClick={() => {}}
+                        >
+                            Save
+                        </Button>
+                    </Box>
                     <form onSubmit={googleForm.handleSubmit}>
                         <Box sx={keywordInputRowStyles}>
                             <Typography variant="h6" sx={formLabelStyles}>
@@ -266,6 +301,7 @@ function App() {
                             sx={{
                                 display: "flex",
                                 justifyContent: "center",
+                                marginY: "16px",
                                 // marginTop: "auto",
                                 // position: "absolute",
                                 // bottom: "0px",

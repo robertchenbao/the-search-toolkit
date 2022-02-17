@@ -18,7 +18,7 @@ export const themeOptions = createTheme({
     },
     typography: {
         fontFamily: '"Work Sans", "Helvetica", "Arial", sans-serif',
-        h5: {
+        h6: {
             fontFamily: 'Bitter,"Times New Roman", Times, serif',
         },
     },

@@ -190,7 +190,7 @@ function App() {
                                 Keywords
                             </Typography>
                             <InputBase
-                                placeholder="Enter your search keywords here..."
+                                placeholder="Search keywords (e.g., Apple)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="mainKeywords"
@@ -208,7 +208,7 @@ function App() {
                                 Exact Keywords
                             </Typography>
                             <InputBase
-                                placeholder="Enter your exact search keywords here..."
+                                placeholder="Exact matches (e.g., fruit)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="exactKeywords"
@@ -225,7 +225,7 @@ function App() {
                                 Exclude
                             </Typography>
                             <InputBase
-                                placeholder="Exclude these keywords..."
+                                placeholder="Exclude keywords (Optional)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="excludedKeywords"
@@ -239,7 +239,7 @@ function App() {
                                 Specific Sites
                             </Typography>
                             <InputBase
-                                placeholder="Search on these specific sites..."
+                                placeholder="Search on specific sites (Optional)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="siteName"
@@ -253,7 +253,7 @@ function App() {
                                 File Type
                             </Typography>
                             <InputBase
-                                placeholder="Only view specific file types..."
+                                placeholder="Filter by file types (Optional)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="fileType"

@@ -13,6 +13,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import ClassIcon from "@mui/icons-material/Class";
 
 function App() {
     // validate function for google forms
@@ -115,6 +121,14 @@ function App() {
         return fileType.trim().length <= 0 ? null : fileTypesString;
     };
 
+    const handleSaveSearch = () => {
+        console.log(JSON.stringify(googleForm.values));
+        localStorage.setItem(
+            `${new Date().toTimeString()}`,
+            JSON.stringify(googleForm.values)
+        );
+    };
+
     return (
         <ThemeProvider theme={themeOptions}>
             <CssBaseline />
@@ -134,10 +148,17 @@ function App() {
                         width: "40%",
                         display: "flex",
                         flexDirection: "column",
-                        height: "100%",
+                        // height: "100%",
                     }}
                 >
-                    <Box sx={{ height: "200px" }}>
+                    <Box
+                        sx={{
+                            // minHeight: "160px",
+                            // height: "20%",
+                            height: "160px",
+                            paddingX: "8px",
+                        }}
+                    >
                         <Typography
                             variant="h3"
                             sx={{
@@ -156,16 +177,55 @@ function App() {
                                 marginY: "24px",
                             }}
                         >
-                            <i>Precise Google searches, all in seconds</i>
+                            <i>Precise Google searches in seconds.</i>
                         </Typography>
                     </Box>
-                    <Box sx={{ flexGrow: 1, marginY: "12px" }}>
-                        <Typography variant="h4">My Searches</Typography>
+                    <Box
+                        sx={{
+                            paddingX: "8px",
+                            // height: "80%",
+                            display: "flex",
+                            flexDirection: "column",
+                            flexGrow: 1,
+                            backgroundColor:
+                                themeOptions.palette.background.default,
+                            // borderRadius: "4px",
+                        }}
+                    >
+                        <Typography variant="h4" sx={{ height: "48px" }}>
+                            My Searches
+                        </Typography>
+                        <List
+                            sx={{
+                                // backgroundColor:
+                                //     themeOptions.palette.primary.main,
+                                borderRadius: "4px",
+                                flexGrow: 1,
+                            }}
+                        >
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ClassIcon color="secondary" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Inbox" />
+                                </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ClassIcon color="secondary" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Drafts" />
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
                     </Box>
                 </Box>
                 <Paper
                     sx={{
                         padding: "32px",
+                        marginX: "16px",
                         width: "60%",
                         backgroundColor: themeOptions.palette.primary.main,
                         borderRadius: "16px",
@@ -185,7 +245,7 @@ function App() {
                                 variant="contained"
                                 startIcon={<SaveIcon />}
                                 color="secondary"
-                                onClick={() => {}}
+                                onClick={handleSaveSearch}
                             >
                                 Save
                             </Button>
@@ -207,7 +267,7 @@ function App() {
                                 onClick={() => {
                                     googleForm.setValues({
                                         mainKeywords: "investment",
-                                        exactKeywords: "stock",
+                                        exactKeywords: "mutual fund",
                                         excludedKeywords: "speculation",
                                         siteName: "*.gov",
                                         fileType: "pdf,docx",

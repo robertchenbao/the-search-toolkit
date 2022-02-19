@@ -121,11 +121,46 @@ function App() {
         return fileType.trim().length <= 0 ? null : fileTypesString;
     };
 
+    // save the searches in localStorage
     const handleSaveSearch = () => {
         console.log(JSON.stringify(googleForm.values));
         localStorage.setItem(
-            `${new Date().toTimeString()}`,
+            `saved_search_${new Date().toTimeString()}`,
             JSON.stringify(googleForm.values)
+        );
+    };
+
+    const displaySavedSearches = () => {
+        const savedList = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith("saved_search_")) {
+                const value = localStorage.getItem(key);
+                savedList.push({ key, value });
+            }
+        }
+        if (savedList.length > 0) {
+            return (
+                <div>
+                    {savedList.map((item, index) => (
+                        <ListItem disablePadding key={item} value={item}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <ClassIcon color="secondary" />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={`Saved Search ${index + 1}`}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </div>
+            );
+        }
+        return (
+            <Typography variant="h7" sx={{ width: "80%" }}>
+                No item for now! Save a search by clicking the "SAVE" button.
+            </Typography>
         );
     };
 
@@ -193,7 +228,7 @@ function App() {
                         }}
                     >
                         <Typography variant="h4" sx={{ height: "48px" }}>
-                            My Searches
+                            Saved Searches
                         </Typography>
                         <List
                             sx={{
@@ -203,22 +238,7 @@ function App() {
                                 flexGrow: 1,
                             }}
                         >
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <ClassIcon color="secondary" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Inbox" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <ClassIcon color="secondary" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Drafts" />
-                                </ListItemButton>
-                            </ListItem>
+                            {displaySavedSearches()}
                         </List>
                     </Box>
                 </Box>
@@ -258,7 +278,7 @@ function App() {
                                 marginY: "16px",
                             }}
                         >
-                            My Precise Search
+                            Search Configuration
                         </Typography>
                         <Tooltip title="Show me an example!">
                             <IconButton

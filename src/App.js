@@ -11,6 +11,8 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import SaveIcon from "@mui/icons-material/Save";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function App() {
     // validate function for google forms
@@ -52,7 +54,7 @@ function App() {
     };
     const formLabelStyles = {
         color: themeOptions.palette.text.primary,
-        width: "40%",
+        width: "36%",
     };
 
     const inputRowStyles = {
@@ -151,23 +153,19 @@ function App() {
                             sx={{
                                 width: "90%",
                                 textAlign: "left",
-                                marginY: "48px",
+                                marginY: "24px",
                             }}
                         >
-                            <i>
-                                Couldn't find what you want on the web? <br />
-                                Use this app to make your search even more
-                                precise.
-                            </i>
+                            <i>Precise Google searches, all in seconds</i>
                         </Typography>
                     </Box>
-                    <Box sx={{ flexGrow: 1, marginY: "48px" }}>
+                    <Box sx={{ flexGrow: 1, marginY: "12px" }}>
                         <Typography variant="h4">My Searches</Typography>
                     </Box>
                 </Box>
                 <Paper
                     sx={{
-                        paddingX: "32px",
+                        padding: "32px",
                         width: "60%",
                         backgroundColor: themeOptions.palette.primary.main,
                         borderRadius: "16px",
@@ -182,6 +180,26 @@ function App() {
                             alignItems: "center",
                         }}
                     >
+                        <Tooltip title="Save the current search">
+                            <Button
+                                variant="contained"
+                                startIcon={<SaveIcon />}
+                                color="secondary"
+                                onClick={() => {}}
+                            >
+                                Save
+                            </Button>
+                        </Tooltip>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                width: "100%",
+                                textAlign: "center",
+                                marginY: "16px",
+                            }}
+                        >
+                            My Precise Search
+                        </Typography>
                         <Tooltip title="Show me an example!">
                             <IconButton
                                 color="secondary"
@@ -199,40 +217,19 @@ function App() {
                                 <TipsAndUpdatesIcon />
                             </IconButton>
                         </Tooltip>
-                        {/* <Button
-                            variant="outlined"
-                            startIcon={<TipsAndUpdatesIcon />}
-                            color="secondary"
-                            onClick={() => {
-                                googleForm.setValues({
-                                    mainKeywords: "abc",
-                                    exactKeywords: "def",
-                                    excludedKeywords: "nonono",
-                                    siteName: "yes.com",
-                                    fileType: "pdf",
-                                });
-                            }}
+                        <Tooltip
+                            title="Clear the current search"
+                            sx={{ marginLeft: "8px" }}
                         >
-                            Example
-                        </Button> */}
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                width: "100%",
-                                textAlign: "center",
-                                marginY: "16px",
-                            }}
-                        >
-                            My Precise Search
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            startIcon={<SaveIcon />}
-                            color="secondary"
-                            onClick={() => {}}
-                        >
-                            Save
-                        </Button>
+                            <IconButton
+                                color="secondary"
+                                variant="contained"
+                                aria-label="clear"
+                                onClick={googleForm.handleReset}
+                            >
+                                <ClearIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Box>
                     <form onSubmit={googleForm.handleSubmit}>
                         <Box sx={keywordInputRowStyles}>
@@ -317,9 +314,6 @@ function App() {
                                 display: "flex",
                                 justifyContent: "center",
                                 marginY: "16px",
-                                // marginTop: "auto",
-                                // position: "absolute",
-                                // bottom: "0px",
                             }}
                         >
                             <Button
@@ -327,6 +321,8 @@ function App() {
                                 type="submit"
                                 variant="contained"
                                 color="secondary"
+                                sx={{ marginTop: "48px" }}
+                                startIcon={<SearchIcon />}
                             >
                                 search with Google
                             </Button>

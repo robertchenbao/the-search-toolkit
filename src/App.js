@@ -9,6 +9,8 @@ import InputBase from "@mui/material/InputBase";
 import Button from "@mui/material/Button";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import SaveIcon from "@mui/icons-material/Save";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 function App() {
     // validate function for google forms
@@ -81,7 +83,7 @@ function App() {
         if (excludedString) url += ` ${excludedString}`;
         if (exactKeywords) url += ` "${exactKeywords}"`;
         if (fileTypeString) url += ` ${fileTypeString}`;
-        if (siteName) url += ` site: ${siteName}`;
+        if (siteName) url += ` site:${siteName}`;
 
         window.open(url, "_blank");
     };
@@ -89,12 +91,10 @@ function App() {
     // formatting functions to create search strings
     const makeExcludeString = (exclude) => {
         let excludedString = "";
-        if (exclude) {
-            if (exclude.indexOf(",")) {
-                let excluded = exclude.split(",");
-                for (let iterator of excluded) {
-                    excludedString += ` -"${iterator.trim()}"`;
-                }
+        if (exclude && exclude.indexOf(",")) {
+            let excluded = exclude.split(",");
+            for (let iterator of excluded) {
+                excludedString += ` -"${iterator.trim()}"`;
             }
             return excludedString;
         }
@@ -102,15 +102,13 @@ function App() {
     };
     const makeFileTypeString = (fileType) => {
         let fileTypesString = "(";
-        if (fileType) {
-            if (fileType.indexOf(",")) {
-                let types = fileType.split(",");
-                for (let [i, v] of types.entries()) {
-                    if (i === 0) fileTypesString += ` filetype:${v.trim()}`;
-                    else fileTypesString += ` OR filetype:${v.trim()}`;
-                }
-                fileTypesString += " )";
+        if (fileType && fileType.indexOf(",")) {
+            let types = fileType.split(",");
+            for (let [i, v] of types.entries()) {
+                if (i === 0) fileTypesString += ` filetype:${v.trim()}`;
+                else fileTypesString += ` OR filetype:${v.trim()}`;
             }
+            fileTypesString += " )";
         }
         return fileType.trim().length <= 0 ? null : fileTypesString;
     };
@@ -184,7 +182,24 @@ function App() {
                             alignItems: "center",
                         }}
                     >
-                        <Button
+                        <Tooltip title="Show me an example!">
+                            <IconButton
+                                color="secondary"
+                                aria-label="example"
+                                onClick={() => {
+                                    googleForm.setValues({
+                                        mainKeywords: "investment",
+                                        exactKeywords: "stock",
+                                        excludedKeywords: "speculation",
+                                        siteName: "*.gov",
+                                        fileType: "pdf,docx",
+                                    });
+                                }}
+                            >
+                                <TipsAndUpdatesIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {/* <Button
                             variant="outlined"
                             startIcon={<TipsAndUpdatesIcon />}
                             color="secondary"
@@ -199,7 +214,7 @@ function App() {
                             }}
                         >
                             Example
-                        </Button>
+                        </Button> */}
                         <Typography
                             variant="h4"
                             sx={{
@@ -225,7 +240,7 @@ function App() {
                                 Keywords
                             </Typography>
                             <InputBase
-                                placeholder="Search keywords (e.g., Apple)"
+                                placeholder="Search keywords"
                                 sx={formInputStyles}
                                 type="text"
                                 name="mainKeywords"
@@ -243,7 +258,7 @@ function App() {
                                 Exact Keywords
                             </Typography>
                             <InputBase
-                                placeholder="Exact matches (e.g., fruit)"
+                                placeholder="Exact match keywords"
                                 sx={formInputStyles}
                                 type="text"
                                 name="exactKeywords"
@@ -260,7 +275,7 @@ function App() {
                                 Exclude
                             </Typography>
                             <InputBase
-                                placeholder="Exclude keywords (Optional)"
+                                placeholder="List of Excluded Keywords (Optional)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="excludedKeywords"
@@ -274,7 +289,7 @@ function App() {
                                 Specific Sites
                             </Typography>
                             <InputBase
-                                placeholder="Search on specific sites (Optional)"
+                                placeholder="Specific website (Optional)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="siteName"
@@ -288,7 +303,7 @@ function App() {
                                 File Type
                             </Typography>
                             <InputBase
-                                placeholder="Filter by file types (Optional)"
+                                placeholder="List of file types (Optional)"
                                 sx={formInputStyles}
                                 type="text"
                                 name="fileType"

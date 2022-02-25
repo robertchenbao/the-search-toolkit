@@ -19,19 +19,19 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import ClassIcon from "@mui/icons-material/Class";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
 
 function App() {
     // validate function for google forms
     const validate = (values) => {
-        const emptySearchMessage =
-            "Please fill in either search keywords, or exact keywords.";
+        const message = "Please enter either Keywords or Exact Keywords";
         const errors = {};
         const empty =
             values.mainKeywords.trim()?.length <= 0 &&
             values.exactKeywords.trim()?.length <= 0;
         if (empty) {
-            errors.mainKeywords = emptySearchMessage;
-            errors.exactKeywords = emptySearchMessage;
+            errors.mainKeywords = message;
         }
         return errors;
     };
@@ -128,10 +128,11 @@ function App() {
             `saved_search_${new Date().toTimeString()}`,
             JSON.stringify(googleForm.values)
         );
+        window.location.reload();
     };
 
     const displaySavedSearches = () => {
-        const savedList = [];
+        let savedList = [];
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             if (key.startsWith("saved_search_")) {
@@ -140,11 +141,35 @@ function App() {
             }
         }
         if (savedList.length > 0) {
+            console.log(savedList);
             return (
                 <div>
                     {savedList.map((item, index) => (
-                        <ListItem disablePadding key={item} value={item}>
-                            <ListItemButton>
+                        <ListItem
+                            disablePadding
+                            key={item}
+                            value={item}
+                            secondaryAction={
+                                <IconButton
+                                    edge="end"
+                                    aria-label="delete"
+                                    onClick={() => {
+                                        localStorage.removeItem(item["key"]);
+                                        window.location.reload();
+                                    }}
+                                >
+                                    <DeleteIcon color="secondary" />
+                                </IconButton>
+                            }
+                        >
+                            <ListItemButton
+                                onClick={() => {
+                                    console.log(item["value"]);
+                                    googleForm.setValues(
+                                        JSON.parse(item["value"])
+                                    );
+                                }}
+                            >
                                 <ListItemIcon>
                                     <ClassIcon color="secondary" />
                                 </ListItemIcon>
@@ -326,10 +351,6 @@ function App() {
                                 value={googleForm.values.mainKeywords}
                             />
                         </Box>
-                        {googleForm.errors.mainKeywords ? (
-                            <div>{googleForm.errors.mainKeywords}</div>
-                        ) : null}
-
                         <Box sx={keywordInputRowStyles}>
                             <Typography variant="h6" sx={formLabelStyles}>
                                 Exact Keywords
@@ -344,23 +365,11 @@ function App() {
                                 value={googleForm.values.exactKeywords}
                             />
                         </Box>
-                        {googleForm.errors.mainKeywords ? (
-                            <div>{googleForm.errors.mainKeywords}</div>
-                        ) : null}
-                        <Box sx={inputRowStyles}>
-                            <Typography variant="h6" sx={formLabelStyles}>
-                                Exclude
-                            </Typography>
-                            <InputBase
-                                placeholder="List of Excluded Keywords (Optional)"
-                                sx={formInputStyles}
-                                type="text"
-                                name="excludedKeywords"
-                                autoComplete="off"
-                                onChange={googleForm.handleChange}
-                                value={googleForm.values.excludedKeywords}
-                            />
-                        </Box>
+                        <Typography variant="body1" color={"secondary"}>
+                            {googleForm.errors.mainKeywords
+                                ? googleForm.errors.mainKeywords
+                                : null}
+                        </Typography>
                         <Box sx={inputRowStyles}>
                             <Typography variant="h6" sx={formLabelStyles}>
                                 Specific Sites
@@ -375,6 +384,21 @@ function App() {
                                 value={googleForm.values.siteName}
                             />
                         </Box>
+                        <Box sx={inputRowStyles}>
+                            <Typography variant="h6" sx={formLabelStyles}>
+                                Exclude
+                            </Typography>
+                            <InputBase
+                                placeholder="List of Excluded Keywords (Optional)"
+                                sx={formInputStyles}
+                                type="text"
+                                name="excludedKeywords"
+                                autoComplete="off"
+                                onChange={googleForm.handleChange}
+                                value={googleForm.values.excludedKeywords}
+                            />
+                        </Box>
+
                         <Box sx={inputRowStyles}>
                             <Typography variant="h6" sx={formLabelStyles}>
                                 File Type

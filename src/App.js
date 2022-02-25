@@ -20,7 +20,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import ClassIcon from "@mui/icons-material/Class";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
 
 function App() {
     // validate function for google forms
@@ -150,16 +149,20 @@ function App() {
                             key={item}
                             value={item}
                             secondaryAction={
-                                <IconButton
-                                    edge="end"
-                                    aria-label="delete"
-                                    onClick={() => {
-                                        localStorage.removeItem(item["key"]);
-                                        window.location.reload();
-                                    }}
-                                >
-                                    <DeleteIcon color="secondary" />
-                                </IconButton>
+                                <Tooltip title="Delete the saved search">
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="delete"
+                                        onClick={() => {
+                                            localStorage.removeItem(
+                                                item["key"]
+                                            );
+                                            window.location.reload();
+                                        }}
+                                    >
+                                        <DeleteIcon color="secondary" />
+                                    </IconButton>
+                                </Tooltip>
                             }
                         >
                             <ListItemButton
@@ -183,9 +186,12 @@ function App() {
             );
         }
         return (
-            <Typography variant="h7" sx={{ width: "80%" }}>
-                No item for now! Save a search by clicking the "SAVE" button.
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="h7">
+                    No item for now! Save a search by clicking the "SAVE"
+                    button.
+                </Typography>
+            </Box>
         );
     };
 
@@ -303,7 +309,7 @@ function App() {
                                 marginY: "16px",
                             }}
                         >
-                            Search Configuration
+                            Precise Search
                         </Typography>
                         <Tooltip title="Show me an example!">
                             <IconButton

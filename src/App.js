@@ -54,11 +54,12 @@ function App() {
     // the styles for input
     const formInputStyles = {
         width: "100%",
-        backgroundColor: themeOptions.palette.background.main,
+        backgroundColor: themeOptions.palette.primary.main,
+        color: themeOptions.palette.text.inverted,
         fontSize: "20px",
     };
     const formLabelStyles = {
-        color: themeOptions.palette.text.primary,
+        color: themeOptions.palette.text.inverted,
         width: "36%",
     };
 
@@ -186,10 +187,9 @@ function App() {
             );
         }
         return (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h7">
-                    No item for now! Save a search by clicking the "SAVE"
-                    button.
+            <Box>
+                <Typography variant="h7" sx={{ textAlign: "center" }}>
+                    No item for now!
                 </Typography>
             </Box>
         );
@@ -214,14 +214,11 @@ function App() {
                         width: "40%",
                         display: "flex",
                         flexDirection: "column",
-                        // height: "100%",
                     }}
                 >
                     <Box
                         sx={{
-                            // minHeight: "160px",
-                            // height: "20%",
-                            height: "160px",
+                            height: "240px",
                             paddingX: "8px",
                         }}
                     >
@@ -241,9 +238,16 @@ function App() {
                                 width: "90%",
                                 textAlign: "left",
                                 marginY: "24px",
+                                fontFamily:
+                                    'Bitter,"Times New Roman", Times, serif',
                             }}
                         >
-                            <i>Precise Google searches in seconds.</i>
+                            <i>
+                                Finding things you want on the Internet can be
+                                tough. This app helps you create precise Google
+                                searches in seconds using advanced search
+                                syntax.
+                            </i>
                         </Typography>
                     </Box>
                     <Box
@@ -254,7 +258,7 @@ function App() {
                             flexDirection: "column",
                             flexGrow: 1,
                             backgroundColor:
-                                themeOptions.palette.background.default,
+                                themeOptions.palette.background.main,
                             // borderRadius: "4px",
                         }}
                     >
@@ -307,6 +311,7 @@ function App() {
                                 width: "100%",
                                 textAlign: "center",
                                 marginY: "16px",
+                                color: themeOptions.palette.text.inverted,
                             }}
                         >
                             Precise Search

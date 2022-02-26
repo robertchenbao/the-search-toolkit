@@ -4,22 +4,20 @@ export const themeOptions = createTheme({
     type: "dark",
     palette: {
         primary: {
-            main: "#292C6D",
+            main: "#21209C",
         },
         secondary: {
-            main: "#EC255A",
+            main: "#FDB827",
         },
         background: {
-            default: "#161853",
+            main: "#F1F1F1",
         },
         text: {
-            primary: "#FAEDF0",
+            primary: "#23120B",
+            inverted: "#F1F1F1",
         },
     },
     typography: {
         fontFamily: '"Work Sans", "Helvetica", "Arial", sans-serif',
-        h6: {
-            fontFamily: 'Bitter,"Times New Roman", Times, serif',
-        },
     },
 });

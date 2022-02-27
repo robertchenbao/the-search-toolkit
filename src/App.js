@@ -183,7 +183,7 @@ function App() {
                                         item["key"].slice(
                                             item["key"].lastIndexOf("_") + 1
                                         )
-                                    ).format("MMM DD, h:m A")}`}
+                                    ).format("MMM DD, h:mm A")}`}
                                 />
                             </ListItemButton>
                         </ListItem>
@@ -216,14 +216,15 @@ function App() {
             >
                 <Box
                     sx={{
-                        width: "40%",
+                        width: { xs: "100%", md: "40%" },
                         display: "flex",
                         flexDirection: "column",
+                        marginY: { xs: "24px", md: "0px" },
                     }}
                 >
                     <Box
                         sx={{
-                            height: "240px",
+                            maxHeight: { xs: "280px", md: "260px" },
                             paddingX: "8px",
                         }}
                     >
@@ -232,7 +233,6 @@ function App() {
                             sx={{
                                 width: "100%",
                                 textAlign: "left",
-                                marginY: "8px",
                             }}
                         >
                             The Search Toolkit
@@ -257,6 +257,7 @@ function App() {
                     </Box>
                     <Box
                         sx={{
+                            marginY: "32px",
                             paddingX: "8px",
                             display: { md: "flex", xs: "none" },
                             flexDirection: "column",
@@ -283,8 +284,7 @@ function App() {
                 <Paper
                     sx={{
                         padding: "32px",
-                        marginX: "16px",
-                        width: "60%",
+                        width: { xs: "100%", md: "60%" },
                         backgroundColor: themeOptions.palette.primary.main,
                         borderRadius: "16px",
                     }}
@@ -389,7 +389,7 @@ function App() {
                                 Specific Sites
                             </Typography>
                             <InputBase
-                                placeholder="Specific website (Optional)"
+                                placeholder="Specific website"
                                 sx={formInputStyles}
                                 type="text"
                                 name="siteName"
@@ -403,7 +403,7 @@ function App() {
                                 Exclude
                             </Typography>
                             <InputBase
-                                placeholder="List of Excluded Keywords (Optional)"
+                                placeholder="List of excluded keywords"
                                 sx={formInputStyles}
                                 type="text"
                                 name="excludedKeywords"
@@ -418,7 +418,7 @@ function App() {
                                 File Type
                             </Typography>
                             <InputBase
-                                placeholder="List of file types (Optional)"
+                                placeholder="List of file types"
                                 sx={formInputStyles}
                                 type="text"
                                 name="fileType"

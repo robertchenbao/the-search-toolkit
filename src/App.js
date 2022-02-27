@@ -1,3 +1,4 @@
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
@@ -21,8 +22,21 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ClassIcon from "@mui/icons-material/Class";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
+import Popover from "@mui/material/Popover";
 
 function App() {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+
     // validate function for google forms
     const validate = (values) => {
         const message = "Please enter either a keyword or an exact keyword";
@@ -132,6 +146,18 @@ function App() {
         window.location.reload();
     };
 
+    const getPopoverText = (savedSearchObject) => {
+        let res = "Search about ";
+        let content = JSON.parse(savedSearchObject["value"]);
+        if (content["mainKeywords"]) {
+            res += content["mainKeywords"];
+        }
+        if (content["exactKeywords"]) {
+            res += ` and ${content["exactKeywords"]}`;
+        }
+        return res;
+    };
+
     const displaySavedSearches = () => {
         let savedList = [];
         for (let i = 0; i < localStorage.length; i++) {
@@ -146,43 +172,72 @@ function App() {
             return (
                 <div>
                     {savedList.map((item) => (
-                        <ListItem
-                            disablePadding
-                            key={item}
-                            value={item}
-                            secondaryAction={
-                                <IconButton
-                                    edge="end"
-                                    aria-label="delete"
+                        <div>
+                            <ListItem
+                                onMouseEnter={handlePopoverOpen}
+                                onMouseLeave={handlePopoverClose}
+                                disablePadding
+                                key={item}
+                                value={item}
+                                secondaryAction={
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="delete"
+                                        onClick={() => {
+                                            localStorage.removeItem(
+                                                item["key"]
+                                            );
+                                            window.location.reload();
+                                        }}
+                                    >
+                                        <DeleteIcon color="secondary" />
+                                    </IconButton>
+                                }
+                            >
+                                <ListItemButton
                                     onClick={() => {
-                                        localStorage.removeItem(item["key"]);
-                                        window.location.reload();
+                                        console.log(item["value"]);
+                                        googleForm.setValues(
+                                            JSON.parse(item["value"])
+                                        );
                                     }}
                                 >
-                                    <DeleteIcon color="secondary" />
-                                </IconButton>
-                            }
-                        >
-                            <ListItemButton
-                                onClick={() => {
-                                    console.log(item["value"]);
-                                    googleForm.setValues(
-                                        JSON.parse(item["value"])
-                                    );
+                                    <ListItemIcon>
+                                        <ClassIcon color="secondary" />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={`Saved Search - ${moment(
+                                            item["key"].slice(
+                                                item["key"].lastIndexOf("_") + 1
+                                            )
+                                        ).format("MMM DD, h:mm A")}`}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                            <Popover
+                                id="mouse-over-popover"
+                                sx={{
+                                    pointerEvents: "none",
+                                    maxWidth: "300px",
                                 }}
+                                open={open}
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "left",
+                                }}
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "left",
+                                }}
+                                onClose={handlePopoverClose}
+                                disableRestoreFocus
                             >
-                                <ListItemIcon>
-                                    <ClassIcon color="secondary" />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={`Saved Search - ${moment(
-                                        item["key"].slice(
-                                            item["key"].lastIndexOf("_") + 1
-                                        )
-                                    ).format("MMM DD, h:mm A")}`}
-                                />
-                            </ListItemButton>
-                        </ListItem>
+                                <Typography sx={{ p: 1 }}>
+                                    {getPopoverText(item)}
+                                </Typography>
+                            </Popover>
+                        </div>
                     ))}
                 </div>
             );

@@ -4,17 +4,17 @@ export const themeOptions = createTheme({
     type: "dark",
     palette: {
         primary: {
-            main: "#30475E",
+            main: "#4F8A8B",
         },
         secondary: {
-            main: "#F05454",
+            main: "#FBD46D",
         },
         background: {
-            main: "#F5F5F5",
+            main: "#F4F6FF",
         },
         text: {
-            primary: "#121212",
-            inverted: "#F5F5F5",
+            primary: "#07031A",
+            inverted: "#F4F6FF",
         },
     },
     typography: {

@@ -20,11 +20,12 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import ClassIcon from "@mui/icons-material/Class";
 import DeleteIcon from "@mui/icons-material/Delete";
+import moment from "moment";
 
 function App() {
     // validate function for google forms
     const validate = (values) => {
-        const message = "Please enter either Keywords or Exact Keywords";
+        const message = "Please enter either a keyword or an exact keyword";
         const errors = {};
         const empty =
             values.mainKeywords.trim()?.length <= 0 &&
@@ -125,7 +126,7 @@ function App() {
     const handleSaveSearch = () => {
         console.log(JSON.stringify(googleForm.values));
         localStorage.setItem(
-            `saved_search_${new Date().toTimeString()}`,
+            `saved_search_${new Date().toISOString()}`,
             JSON.stringify(googleForm.values)
         );
         window.location.reload();
@@ -144,7 +145,7 @@ function App() {
             console.log(savedList);
             return (
                 <div>
-                    {savedList.map((item, index) => (
+                    {savedList.map((item) => (
                         <ListItem
                             disablePadding
                             key={item}
@@ -178,7 +179,11 @@ function App() {
                                     <ClassIcon color="secondary" />
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary={`Saved Search ${index + 1}`}
+                                    primary={`Saved Search - ${moment(
+                                        item["key"].slice(
+                                            item["key"].lastIndexOf("_") + 1
+                                        )
+                                    ).format("MMM DD, h:m A")}`}
                                 />
                             </ListItemButton>
                         </ListItem>
@@ -202,7 +207,7 @@ function App() {
             <Box
                 sx={{
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: { xs: "column", md: "row" },
                     width: "100%",
                     minHeight: "100vh",
                     padding: "32px",
@@ -253,13 +258,11 @@ function App() {
                     <Box
                         sx={{
                             paddingX: "8px",
-                            // height: "80%",
-                            display: "flex",
+                            display: { md: "flex", xs: "none" },
                             flexDirection: "column",
                             flexGrow: 1,
                             backgroundColor:
                                 themeOptions.palette.background.main,
-                            // borderRadius: "4px",
                         }}
                     >
                         <Typography variant="h4" sx={{ height: "48px" }}>

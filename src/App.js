@@ -151,20 +151,16 @@ function App() {
                             key={item}
                             value={item}
                             secondaryAction={
-                                <Tooltip title="Delete the saved search">
-                                    <IconButton
-                                        edge="end"
-                                        aria-label="delete"
-                                        onClick={() => {
-                                            localStorage.removeItem(
-                                                item["key"]
-                                            );
-                                            window.location.reload();
-                                        }}
-                                    >
-                                        <DeleteIcon color="secondary" />
-                                    </IconButton>
-                                </Tooltip>
+                                <IconButton
+                                    edge="end"
+                                    aria-label="delete"
+                                    onClick={() => {
+                                        localStorage.removeItem(item["key"]);
+                                        window.location.reload();
+                                    }}
+                                >
+                                    <DeleteIcon color="secondary" />
+                                </IconButton>
                             }
                         >
                             <ListItemButton

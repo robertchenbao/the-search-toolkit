@@ -23,6 +23,9 @@ import ClassIcon from "@mui/icons-material/Class";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
 import Popover from "@mui/material/Popover";
+import ReactGA from "react-ga";
+
+ReactGA.initialize("G-GR7YYYGCS4");
 
 function App() {
     const [anchorEl, setAnchorEl] = React.useState(null);

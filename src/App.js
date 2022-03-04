@@ -25,7 +25,7 @@ import moment from "moment";
 import Popover from "@mui/material/Popover";
 import ReactGA from "react-ga";
 
-ReactGA.initialize("G-GR7YYYGCS4");
+ReactGA.initialize("UA-175479203-2");
 
 function App() {
     const [anchorEl, setAnchorEl] = React.useState(null);
